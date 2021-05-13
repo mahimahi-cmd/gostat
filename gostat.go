@@ -1,3 +1,10 @@
+ /*
+ logrus Golang Logger
+ https://github.com/sirupsen/logrus
+ 
+ Released under the MIT license
+ */
+
 package main
 
 import (
