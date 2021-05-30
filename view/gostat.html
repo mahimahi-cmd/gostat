@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-streaming@latest/dist/chartjs-plugin-streaming.min.js"></script>
+</head>
+
+<body>
+
+<canvas id="myChart"></canvas>
+<canvas id="myChart2"></canvas>
+<canvas id="myChart3"></canvas>
+
+<script>
+
+var url = "http://localhost:8080/json";
+var request = new XMLHttpRequest();
+request.open("GET", url, true);
+request.send();
+request.onreadystatechange = function() {
+  // status=200 success
+  if (request.status == 200) {
+    //get json parse
+    var datas = request.responseText;
+    
+    var par = JSON.parse(datas)
+
+    console.log(par.label)
+
+    var datast = new Object();
+    datast.label = par.label;
+    datast.buff = par.buff;
+    datast.free = par.free;
+    datast.cpu = par.cpu;
+    console.log(datast.buff, datast.label)
+    drawGraph(datast);
+    
+  }
+}
+
+function drawGraph(datast) {
+// Color
+var chartColors = {
+  red: 'rgb(255, 99, 132)',
+  yellow: 'rgb(255, 205, 86)',
+  green: 'rgb(75, 192, 192)',
+  blue: 'rgb(54, 162, 235)',
+  purple: 'rgb(153, 102, 255)'
+};
+
+var ctx = document.getElementById('myChart').getContext('2d');
+console.log("b", datast.data, datast.label)
+var chart = new Chart(ctx, {
+  type: 'line',
+  data: {
+    datasets: [{
+      label: 'buff',
+      borderColor: chartColors.red,
+      fill: false,
+      data: datast.buff
+    }],
+    labels: datast.label,
+    options: {}
+  }
+});
+var ctx2 = document.getElementById('myChart2').getContext('2d');
+var chart2 = new Chart(ctx2, {
+  type: 'line',
+  data: {
+    datasets: [{
+      label: 'free',
+      borderColor: chartColors.green,
+      fill: false,
+      data: datast.free
+    }],
+    labels: datast.label,
+    options: {}
+  }
+});
+var ctx3 = document.getElementById('myChart3').getContext('2d');
+var chart3 = new Chart(ctx3, {
+  type: 'line',
+  data: {
+    datasets: [{
+      label: 'cpu',
+      borderColor: chartColors.purple,
+      fill: false,
+      data: datast.cpu
+    }],
+    labels: datast.label,
+    options: {}
+  }
+});
+}
+</script>
+</body>
+</html>
