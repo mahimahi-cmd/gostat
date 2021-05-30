@@ -1,5 +1,5 @@
 # gostat
-gostat can show vmstat Gragh on browser.
+gostat can show vmstat Gragh on browser for Chartjs.
 
 # Run
 ./gostat 
