@@ -4,12 +4,18 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"time"
 	"runtime"
 	"strings"
 )
 
 var (
 	newline = "<br>"
+)
+
+const (
+	//deray time for log write
+	wait = 60 * time.Second
 )
 
 func HttpsOs() string {
@@ -40,8 +46,22 @@ func HttpsOs() string {
 		m3 := strings.Join(b3, " ") + newline
 		m4 := m1 + m2 + m3
 		
+		CmdLog(b3)
 		return m4
 	}
 
 	return string(a)
+}
+
+func Run() {
+	ticker := time.NewTicker(wait)
+	defer ticker.Stop()
+
+	for{
+		select{
+		case <-ticker.C:
+			HttpsOs()
+		}
+	}
+
 }

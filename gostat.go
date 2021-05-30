@@ -1,10 +1,3 @@
- /*
- logrus Golang Logger
- https://github.com/sirupsen/logrus
- 
- Released under the MIT license
- */
-
 package main
 
 import (
@@ -43,25 +36,34 @@ func main() {
 		return
 	}
 
+	go lib.Run()
+
 	//Start HTTP
 	fmt.Println("running on http://localhost",port_num,"/gostat")
-	mux := Router()
-	http.ListenAndServe(port_num, mux)
+	http.HandleFunc("/gostat", func(w http.ResponseWriter, r *http.Request) {
+		lib.Logwrite(r)
+	
+	http.ServeFile(w, r, "./view/gostat.html")
+	})
+
+	http.HandleFunc("/json", JsHubdleFunc)
+
+	//mux := Router()
+	http.ListenAndServe(port_num, nil)
+
+}
+
+func JsHubdleFunc(w http.ResponseWriter, r *http.Request) {
+	w.Write(lib.GetLog())
 }
 
 func Router() *http.ServeMux {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/gostat",func(w http.ResponseWriter, r *http.Request) {
-		lib.Logwrite(r)
-
-		fmt.Fprintf(w, `
-        <!DOCTYPE html>
-        <html>
-        <body>
-            %s
-        </body>
-        </html>
-    `, lib.HttpsOs())
+	//lib.Logwrite(r)
+	
+	//http.ServeFile(w, r, "./log/cmd.log")
+	//fmt.Fprintf(w, lib.GetLog())
 	})
 
 	return mux
