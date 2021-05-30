@@ -1,6 +1,7 @@
 # gostat
-gostat can show vmstat Gragh on browser for Chartjs. 
-buff, free and cpu id view gragh from 10 minutes ago to now.
+gostat can show vmstat Gragh on browser for Chartjs.  
+buff, free and cpu id view gragh from 10 minutes ago to now.  
+update interval is 1 minutes.
 
 # Run
 ./gostat 
