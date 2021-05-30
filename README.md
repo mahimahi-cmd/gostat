@@ -7,11 +7,11 @@ Update interval is 1 minutes.
 ./gostat   
 Default port is 8080.  
 Start api server on localhost:8080/gostat.
-
-![gostat_run](https://user-images.githubusercontent.com/72561122/120090620-e6d84b80-c13e-11eb-9871-9c596a9bb3ef.png)  
 PC(Firefox)  
-![IMG_20210530_224936](https://user-images.githubusercontent.com/72561122/120106831-96daa280-c199-11eb-871f-16da3f1cc248.jpg)  
-Android(Chrome)
+![gostat_run](https://user-images.githubusercontent.com/72561122/120090620-e6d84b80-c13e-11eb-9871-9c596a9bb3ef.png)  
+Android(Chrome)  
+![IMG_20210530_224936](https://user-images.githubusercontent.com/72561122/120107023-3d26a800-c19a-11eb-9898-78cd7be0cd18.jpg)  
+
 
 
 # Help
