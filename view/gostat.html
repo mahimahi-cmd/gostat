@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <div id="ip">{{.}}</div>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-streaming@latest/dist/chartjs-plugin-streaming.min.js"></script>
@@ -8,13 +9,24 @@
 
 <body>
 
+
 <canvas id="myChart"></canvas>
 <canvas id="myChart2"></canvas>
 <canvas id="myChart3"></canvas>
 
 <script>
+/*
+Chartjs is JavaScript charting
+https://www.chartjs.org/
 
-var url = "http://localhost:8080/json";
+ Released under the MIT license
+*/
+console.log("test")
+if (document.getElementById('ip') == null) {
+  console.log("null")
+}
+console.log("aa", document.getElementById("ip").innerText)
+var url = "http://" + document.getElementById("ip").innerText + ":8080/json";
 var request = new XMLHttpRequest();
 request.open("GET", url, true);
 request.send();
@@ -26,7 +38,7 @@ request.onreadystatechange = function() {
     
     var par = JSON.parse(datas)
 
-    console.log(par.label)
+    console.log(par)
 
     var datast = new Object();
     datast.label = par.label;
@@ -34,12 +46,12 @@ request.onreadystatechange = function() {
     datast.free = par.free;
     datast.cpu = par.cpu;
     console.log(datast.buff, datast.label)
-    drawGraph(datast);
+    draw(datast);
     
   }
 }
 
-function drawGraph(datast) {
+function draw(datast) {
 // Color
 var chartColors = {
   red: 'rgb(255, 99, 132)',

@@ -1,3 +1,9 @@
+ /*
+ logrus Golang Logger
+ https://github.com/sirupsen/logrus
+ 
+ Released under the MIT license
+ */
 package main
 
 import (
@@ -6,22 +12,28 @@ import (
 	"net/http"
 	"os"
 	"flag"
+	"html/template"
+	"log"
 
 	"work/lib"
 )
 
 //Option
 const defaultport = 8080
+const defaultip = "localhost"
 var version = "1.1.0 β"
 
 func main() {
 
 	var port int
 	var versionbool bool
+	var ip string
+	var tpl *template.Template
 
 	//Flag Parses CLI Oprtion
 	flag.IntVar(&port,"p",defaultport,"port number")
 	flag.BoolVar(&versionbool,"v",false,"show version")
+	flag.StringVar(&ip,"i",defaultip,"ip address of this server")
 	flag.Parse()
 
 	if port <= 1024 || port >= 49152 {
@@ -39,11 +51,14 @@ func main() {
 	go lib.Run()
 
 	//Start HTTP
-	fmt.Println("running on http://localhost",port_num,"/gostat")
+	fmt.Println("running on http://",ip ,port_num,"/gostat")
 	http.HandleFunc("/gostat", func(w http.ResponseWriter, r *http.Request) {
 		lib.Logwrite(r)
-	
-	http.ServeFile(w, r, "./view/gostat.html")
+
+		tpl = template.Must(template.ParseFiles("./view/gostat.html"))
+		if err := tpl.ExecuteTemplate(w, "gostat.html", ip); err != nil {
+			log.Fatal(err)
+		}
 	})
 
 	http.HandleFunc("/json", JsHubdleFunc)
@@ -54,6 +69,7 @@ func main() {
 }
 
 func JsHubdleFunc(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Write(lib.GetLog())
 }
 
