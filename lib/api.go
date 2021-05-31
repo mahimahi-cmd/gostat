@@ -61,20 +61,22 @@ func GetLog() []byte {
 	}
 
 	for n, i := range buff {
-		line = strings.Fields(i)
+		if (buff[n] != "") {
+			line = strings.Fields(i)
 
-		buf = strings.Split(line[3], "=")
-		buf2 = buf[1]
+			buf = strings.Split(line[3], "=")
+			buf2 = buf[1]
 
-		fre = strings.Split(line[4], "=")
-		fre2 = fre[1]
+			fre = strings.Split(line[4], "=")
+			fre2 = fre[1]
 
-		cp = strings.Split(line[5], "=")
-		cp2 = cp[1]
+			cp = strings.Split(line[5], "=")
+			cp2 = cp[1]
 
-		buff2[n], _ = strconv.Atoi(buf2)
-		free2[n], _ = strconv.Atoi(fre2)
-		cpu2[n], _ = strconv.Atoi(cp2)
+			buff2[n], _ = strconv.Atoi(buf2)
+			free2[n], _ = strconv.Atoi(fre2)
+			cpu2[n], _ = strconv.Atoi(cp2)
+		}
 	}
 
 	i := []int{10, 9, 8, 7, 6, 5, 4, 3, 2, 1}
